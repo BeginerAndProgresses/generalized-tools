@@ -2,7 +2,7 @@ package slice
 
 import (
 	"fmt"
-	tools_err "generalized_tools/error"
+	gterr "generalized-tools/error"
 )
 
 // Delete 删除idx指向vars切片中的元素
@@ -12,29 +12,31 @@ import (
 func Delete[T any](idx int, vars []T) ([]T, T, error) {
 	var res T
 	if idx < 0 || idx > len(vars)-1 {
-		return vars, res, fmt.Errorf(tools_err.DeleteIndexError)
+		return vars, res, fmt.Errorf(gterr.DeleteIndexError)
 	}
 	res = vars[idx]
 	for i := idx; i < len(vars)-1; i++ {
 		vars[i] = vars[i+1]
 	}
-	nVars := shrink(vars, func(l, c int) (newCap int, needShrink bool) {
-		if c <= 32 {
-			return c, false
-		}
-		if c > 512 && c/l >= 4 {
-			return c / 2, true
-		}
-		if c > 256 && c/l >= 2 {
-			factor := 0.625
-			return int(float64(c) * factor), true
-		}
-		return c, false
-	})
+	nVars := shrink(vars, aShrinkageFactor)
 	return nVars, res, nil
 }
 
 type shrinkageFactor func(l, c int) (newCap int, needShrink bool)
+
+var aShrinkageFactor shrinkageFactor = func(l, c int) (newCap int, needShrink bool) {
+	if c <= 32 {
+		return c, false
+	}
+	if c > 512 && c/l >= 4 {
+		return c / 2, true
+	}
+	if c > 256 && c/l >= 2 {
+		factor := 0.625
+		return int(float64(c) * factor), true
+	}
+	return c, false
+}
 
 func shrink[T any](vars []T, sf shrinkageFactor) []T {
 	length := len(vars)
@@ -52,7 +54,7 @@ func shrink[T any](vars []T, sf shrinkageFactor) []T {
 // Insert 在指定位置插入一个元素
 func Insert[T any](idx int, val T, vars []T) ([]T, error) {
 	if idx < 0 || idx > len(vars) {
-		return vars, fmt.Errorf(tools_err.InsertIndexError)
+		return vars, fmt.Errorf(gterr.InsertIndexError)
 	}
 	res := append(vars, val)
 	for i := len(vars); i > idx; i-- {
@@ -74,7 +76,7 @@ func Filter[T comparable](vars []T, elements ...T) []T {
 			res = append(res, t)
 		}
 	}
-	return res
+	return shrink(res, aShrinkageFactor)
 }
 
 // Find 查找vars中val下标，并返回所有下标

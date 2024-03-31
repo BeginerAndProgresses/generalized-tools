@@ -1,4 +1,4 @@
-package tools_err
+package gterr
 
 const (
 	DeleteIndexError = "删除时错误，请检查输入下标"
