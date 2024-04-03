@@ -8,7 +8,7 @@ type HashSet[T any] interface {
 	Clear()
 }
 
-type adkHashSet[T comparable] struct {
+type adkHashSet[T any] struct {
 }
 
 func (a *adkHashSet[T]) Add(val T) bool {
