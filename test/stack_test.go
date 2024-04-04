@@ -1,7 +1,7 @@
 package test
 
 import (
-	gttype "generalized_tools/type"
+	"generalized-tools/type"
 	"testing"
 )
 
