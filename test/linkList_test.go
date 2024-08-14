@@ -2,7 +2,7 @@ package test
 
 import (
 	"fmt"
-	gttype "generalized-tools/type"
+	gttype "github.com/BeginerAndProgresses/generalized-tools/type"
 	"testing"
 )
 

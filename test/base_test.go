@@ -2,7 +2,7 @@ package test
 
 import (
 	"fmt"
-	"generalized-tools/slice"
+	"github.com/BeginerAndProgresses/generalized-tools/slice"
 	"testing"
 )
 

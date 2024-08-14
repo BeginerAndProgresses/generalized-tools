@@ -2,7 +2,7 @@ package slice
 
 import (
 	"fmt"
-	gterr "generalized-tools/error"
+	gterr "github.com/BeginerAndProgresses/generalized-tools/error"
 )
 
 // Delete 删除idx指向vars切片中的元素
