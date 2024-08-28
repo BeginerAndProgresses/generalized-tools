@@ -12,6 +12,8 @@ type MinHeap[T any] interface {
 	Insert(key T)
 	ExtractMin() T
 	PrintHeap()
+	Size() int
+	ForEach(fn func(T))
 }
 
 // Heap 表示通用的 Min-Heap 结构
@@ -40,6 +42,18 @@ func NewHeap[T any](comparators ...Comparator[T]) MinHeap[T] {
 	return &minHeap[T]{
 		arr:        []T{},
 		comparator: comparator,
+	}
+}
+
+// Size 返回堆中元素的個數
+func (h *minHeap[T]) Size() int {
+	return len(h.arr)
+}
+
+// ForEach 遍歷堆中的元素
+func (h *minHeap[T]) ForEach(fn func(T)) {
+	for _, v := range h.arr {
+		fn(v)
 	}
 }
 
