@@ -1,7 +1,7 @@
 package gttype
 
 type HashSet[T any] interface {
-	Add(T) bool
+	Add(T) HashSet[T]
 	Size() int
 	Remove(T) bool
 	IsEmpty() bool
@@ -21,12 +21,9 @@ func (a *adkHashSet[T]) GetData() []T {
 	return data
 }
 
-func (a *adkHashSet[T]) Add(val T) bool {
-	if _, ok := a.Data[val]; ok {
-		return false
-	}
+func (a *adkHashSet[T]) Add(val T) HashSet[T] {
 	a.Data[val] = struct{}{}
-	return true
+	return a
 }
 
 func (a *adkHashSet[T]) Size() int {
