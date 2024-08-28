@@ -16,7 +16,7 @@ type adkHashSet[T any] struct {
 func (a *adkHashSet[T]) GetData() []T {
 	var data []T
 	for k := range a.Data {
-		data = append(data, k)
+		data = append(data, k.(T))
 	}
 	return data
 }
