@@ -1,6 +1,9 @@
 package gttype
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/BeginerAndProgresses/generalized-tools/utils"
+)
 
 // Comparator 是一种函数类型，用于比较 T 类型的两个元素
 type Comparator[T any] func(a, b T) bool
@@ -17,8 +20,23 @@ type minHeap[T any] struct {
 	comparator Comparator[T]
 }
 
-// NewHeap 使用提供的 Comparator 函数创建新的泛型堆
-func NewHeap[T any](comparator Comparator[T]) MinHeap[T] {
+// NewHeap 如果傳入的T是可比較的，則使用傳入的比較函數，不可比較的類型創建時不需要传入比較函數
+func NewHeap[T any](comparators ...Comparator[T]) MinHeap[T] {
+	var t T
+	var comparator Comparator[T]
+	if !utils.IsComparable(t) {
+		comparator = func(a, b T) bool {
+			return false
+		}
+	} else {
+		if len(comparators) > 0 {
+			comparator = comparators[0]
+		} else {
+			comparator = func(a, b T) bool {
+				return false
+			}
+		}
+	}
 	return &minHeap[T]{
 		arr:        []T{},
 		comparator: comparator,
