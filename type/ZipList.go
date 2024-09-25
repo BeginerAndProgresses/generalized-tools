@@ -124,7 +124,7 @@ func NewZipList[T any](maxLen ...int) ZipList[T] {
 	return a
 }
 
-// Insert 插入数据
+// Push 插入数据
 // 采用头插法
 func (a *adkZipList[T]) Push(val T) error {
 	//如果链表为空直接插入数据
